@@ -1,4 +1,4 @@
-name: Build JARs for Two Java Applications
+name: Build and Download JARs for Two Java Applications
 
 on:
   push:
@@ -32,3 +32,19 @@ jobs:
         with:
           name: ${{ matrix.app }}-jar
           path: ${{ matrix.app }}/target/*.jar
+
+  download:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Download app1 JAR
+        uses: actions/download-artifact@v3
+        with:
+          name: app1-jar
+          path: ./downloaded-artifacts/app1
+
+      - name: Download app2 JAR
+        uses: actions/download-artifact@v3
+        with:
+          name: app2-jar
+          path: ./downloaded-artifacts/app2
